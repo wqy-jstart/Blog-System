@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tedu.blogsystem.mapper.UserMapper">
+
+    <!--int insert(User user);-->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO blog.blog_user(username, nickname, password, gender, age, birthday,
+                                   avatar, phone, email, address, sign, article_count,
+                                   gmt_create, gmt_modified)
+        VALUES (#{username}, #{nickname}, #{password}, #{gender}, #{age}, #{birthday},
+                #{avatar}, #{phone}, #{email}, #{address}, #{sign}, #{articleCount},
+                #{gmtCreate}, #{gmtModified})
+    </insert>
+
+    <!--int deleteById(Long id);-->
+    <delete id="deleteById">
+        DELETE
+        FROM blog.blog_user
+        WHERE id = #{id}
+    </delete>
+
+    <!--int update(User user);-->
+    <update id="update">
+        UPDATE blog.blog_user
+        <set>
+            <if test="username!=null">username=#{username},</if>
+            <if test="password!=null">password=#{password},</if>
+            <if test="nickname!=null">nickname=#{nickname},</if>
+            <if test="gender!=null">gender=#{gender},</if>
+            <if test="age!=null">age=#{age},</if>
+            <if test="birthday!=null">birthday=#{birthday},</if>
+            <if test="avatar!=null">avatar=#{avatar},</if>
+            <if test="phone!=null">phone=#{phone},</if>
+            <if test="email!=null">email=#{email},</if>
+            <if test="address!=null">address=#{address},</if>
+            <if test="sign!=null">sign=#{sign}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <!--int countByUsername();-->
+    <select id="countByUsername" resultType="int">
+        SELECT count(*)
+        FROM blog.blog_user
+        WHERE username = #{username}
+    </select>
+
+    <!--int countByNickname(String nickname);-->
+    <select id="countByNickname" resultType="int">
+        SELECT count(*)
+        FROM blog.blog_user
+        WHERE nickname = #{nickname}
+    </select>
+
+    <!--自定义sql语句,用来复用-->
+    <sql id="QueryFields">
+        <if test="true">
+            id,username, nickname, password, gender, age, birthday,
+            avatar, phone, email, address, sign, article_count,
+            gmt_create, gmt_modified
+        </if>
+    </sql>
+
+    <!--手动映射-->
+    <resultMap id="StandardResultMapper" type="cn.tedu.blogsystem.pojo.vo.UserStandardVO">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="nickname" property="nickname"/>
+        <result column="password" property="password"/>
+        <result column="gender" property="gender"/>
+        <result column="age" property="age"/>
+        <result column="birthday" property="birthday"/>
+        <result column="avatar" property="avatar"/>
+        <result column="phone" property="phone"/>
+        <result column="email" property="email"/>
+        <result column="address" property="address"/>
+        <result column="sign" property="sign"/>
+        <result column="article_count" property="articleCount"/>
+        <result column="gmt_create" property="gmtCreate"/>
+        <result column="gmt_modified" property="gmtModified"/>
+    </resultMap>
+
+    <!--UserStandardVO selectById(Long id);-->
+    <select id="selectById" resultMap="StandardResultMapper">
+        SELECT
+        <include refid="QueryFields"/>
+        FROM blog.blog_user
+        WHERE id = #{id}
+    </select>
+
+    <!--UserStandardVO selectByUsername(String username);-->
+    <select id="selectByUsername" resultMap="StandardResultMapper">
+        SELECT
+        <include refid="QueryFields"/>
+        FROM blog.blog_user
+        WHERE username=#{username}
+    </select>
+
+    <!--List<UserListItemVO> list();-->
+    <select id="list" resultMap="ListResultMapper">
+        SELECT
+        <include refid="QueryFields"/>
+        FROM blog.blog_user
+        ORDER BY id
+    </select>
+
+    <!--手动映射-->
+    <resultMap id="ListResultMapper" type="cn.tedu.blogsystem.pojo.vo.UserListItemVO">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="nickname" property="nickname"/>
+        <result column="password" property="password"/>
+        <result column="keywords" property="keywords"/>
+        <result column="gender" property="gender"/>
+        <result column="age" property="age"/>
+        <result column="avatar" property="avatar"/>
+        <result column="email" property="email"/>
+        <result column="address" property="address"/>
+        <result column="sign" property="sign"/>
+        <result column="article_count" property="articleCount"/>
+        <result column="gmt_create" property="gmtCreate"/>
+        <result column="gmt_modified" property="gmtModified"/>
+    </resultMap>
+</mapper>

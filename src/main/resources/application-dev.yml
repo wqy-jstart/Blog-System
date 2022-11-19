@@ -1,0 +1,28 @@
+# ######################### #
+# 此配置文件是【开发环境】的配置 #
+#  此配置文件需要被激活才会生效 #
+# ######################## #
+
+#开发服务端口号
+server:
+  port: 8888
+
+# 连接数据库的配置参数
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/blog?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+  #配置静态资源文件夹,classpath:static指原来的static文件夹
+  web:
+    resources:
+      static-locations: file:G:/files,classpath:static
+  #设置上传文件大小  默认1MB
+  servlet:
+    multipart:
+      max-file-size: 10MB
+
+# 日志的显示级别默认info(根包尽量这样写,若简写会扩大不必要的范围,多写比较麻烦)
+logging:
+  level:
+    cn.tedu.blogsystem: trace

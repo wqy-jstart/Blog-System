@@ -1,0 +1,12 @@
+# 激活Profile配置(不同环境下使用不同的日志级别)
+spring:
+  profiles:
+    active: dev
+
+# Mybatis相关配置(指定xml文件的位置,关联SQL)
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+
+# Knife4j相关配置
+knife4j:
+  enable: true

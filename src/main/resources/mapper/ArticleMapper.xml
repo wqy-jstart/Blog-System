@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tedu.blogsystem.mapper.ArticleMapper">
+
+    <!--int insert(Article article);-->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO blog.blog_article(title, description, text, url, gmt_create, gmt_modified)
+        VALUES (#{title}, #{description}, #{text}, #{url}, #{gmtCreate}, #{gmtModified})
+    </insert>
+
+    <!--int deleteById(Long id);-->
+    <delete id="deleteById">
+        DELETE
+        FROM blog.blog_article
+        WHERE id = #{id}
+    </delete>
+
+    <!--int update(ArticleUpdateDTO articleUpdateDTO);-->
+    <update id="update">
+        UPDATE blog.blog_article
+        <set>
+            <if test="title!=null">title=#{title},</if>
+            <if test="description!=null">description=#{description},</if>
+            <if test="text!=null">text=#{text},</if>
+            <if test="url!=null">url=#{url},</if>
+        </set>
+        WHERE id=#{id}
+    </update>
+
+    <!--int count(Long id);-->
+    <select id="count" resultType="int">
+        SELECT count(*) FROM blog.blog_article WHERE id=#{id}
+    </select>
+
+    <!--ArticleStandardlVO selectById(Long id);-->
+    <select id="selectById" resultMap="QueryResultRM">
+        SELECT
+        <include refid="QueryFields"/>
+        FROM blog.blog_article
+        WHERE id=#{id}
+    </select>
+
+    <!--ArticleStandardlVO selectByTitle(String title);-->
+    <select id="selectByTitle" resultMap="QueryResultRM">
+        SELECT
+        <include refid="QueryFields"/>
+        FROM blog.blog_article
+        WHERE title=#{title}
+    </select>
+
+    <sql id="QueryFields">
+        <if test="true">
+            id,title, description, text, url, gmt_create, gmt_modified
+        </if>
+    </sql>
+
+    <resultMap id="QueryResultRM" type="cn.tedu.blogsystem.pojo.vo.ArticleStandardlVO">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="description" property="description"/>
+        <result column="text" property="text"/>
+        <result column="url" property="url"/>
+        <result column="gmt_create" property="gmtCreate"/>
+        <result column="gmt_modified" property="gmtModified"/>
+    </resultMap>
+
+    <!--List<ArticleListItemVO> listById(Long userId);-->
+    <select id="listById" resultMap="listResultRM">
+        SELECT
+        <include refid="QueryFields"/>
+        FROM blog.blog_article
+        WHERE id=#{userId}
+    </select>
+
+    <resultMap id="listResultRM" type="cn.tedu.blogsystem.pojo.vo.ArticleListItemVO">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="description" property="description"/>
+        <result column="text" property="text"/>
+        <result column="url" property="url"/>
+        <result column="gmt_create" property="gmtCreate"/>
+        <result column="gmt_modified" property="gmtModified"/>
+    </resultMap>
+</mapper>
