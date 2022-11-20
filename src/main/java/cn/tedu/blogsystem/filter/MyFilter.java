@@ -26,11 +26,11 @@ public class MyFilter implements Filter {
         //通过HttpServletRequest从请求对象中获取Session对象
         HttpSession session = rt.getSession();
         //获取Session中的用户对象,强转成UserVO类型
-        UserStandardVO user = (UserStandardVO) session.getAttribute("user");
+        UserStandardVO user = (UserStandardVO) session.getAttribute("userLoginDTO");
         if (user!=null){//登录了
             chain.doFilter(request, response);//放行
         }else {
-            re.sendRedirect("/login.html");//通过HttpServletResponse类重定向到登录页面
+            re.sendRedirect("/login");//通过HttpServletResponse类重定向到登录页面
         }
     }
 }
