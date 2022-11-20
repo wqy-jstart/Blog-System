@@ -72,8 +72,9 @@ public class CommentServiceImpl implements ICommentService {
         }
 
         log.debug("即将向关联表插入信息...");
+        UserStandardVO userStandard = userMapper.selectByUsername(commentAddNewDTO.getUsername());
         UserArticleComment userArticleComment = new UserArticleComment();
-        userArticleComment.setUserId(commentAddNewDTO.getUserId());
+        userArticleComment.setUserId(userStandard.getId());
         userArticleComment.setArticleId(commentAddNewDTO.getArticleId());
         userArticleComment.setCommentId(comment.getId());
         userArticleComment.setGmtCreate(now);

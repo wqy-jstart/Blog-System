@@ -14,6 +14,11 @@ public class CommentAddNewDTO implements Serializable {
     private Long userId;
 
     /**
+     * 用户名
+     */
+    private String username;
+
+    /**
      * 文章id
      */
     private Long articleId;
