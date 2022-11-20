@@ -16,7 +16,8 @@ spring:
   #配置静态资源文件夹,classpath:static指原来的static文件夹
   web:
     resources:
-      static-locations: file:G:/files,classpath:static
+      static-locations: file:D:/files,classpath:static
+
   #设置上传文件大小  默认1MB
   servlet:
     multipart:
