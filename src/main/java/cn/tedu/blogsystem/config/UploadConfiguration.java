@@ -31,7 +31,7 @@ public class UploadConfiguration {
         System.out.println("唯一文件名:" + fileName);
 
         //准备保存图片的路径(本机磁盘中)
-        String dirPath = "G:/files";
+        String dirPath = "D:/files";
         File dirFile = new File(dirPath);//定义该目录中的文件夹
         if (!dirFile.exists()) {//如果没有files文件夹
             dirFile.mkdirs();//创建(mkdirs()方法可多级创建)
@@ -52,7 +52,7 @@ public class UploadConfiguration {
      */
     @RequestMapping("/remove")
     public void remove(String url) {
-        if (new File("G:/files" + url).delete()) {//File对象的delete()方法,返回值boolean
+        if (new File("D:/files" + url).delete()) {//File对象的delete()方法,返回值boolean
             System.out.println("删除成功!");
         } else {
             System.out.println("删除失败!");
