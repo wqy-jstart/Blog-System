@@ -4,8 +4,8 @@
 
     <!--int insert(UserArticle userArticle);-->
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO blog.blog_user_article(user_id, gmt_create, gmt_modified)
-        VALUES (#{userId}, #{gmtCreate}, #{gmtModified})
+        INSERT INTO blog.blog_user_article(user_id,article_id, gmt_create, gmt_modified)
+        VALUES (#{userId},#{articleId}, #{gmtCreate}, #{gmtModified})
     </insert>
 
     <!--List<UserArticleListItemVO> userAndArticleList();-->
@@ -20,7 +20,7 @@
                  JOIN blog.blog_user_article
                       ON blog.blog_user.id = blog.blog_user_article.user_id
                  JOIN blog.blog_article
-                      ON blog.blog_article.id = blog.blog_user_article.id;
+                      ON blog.blog_article.id = blog.blog_user_article.article_id;
     </select>
 
     <resultMap id="QueryListRM" type="cn.tedu.blogsystem.pojo.vo.UserArticleListItemVO">

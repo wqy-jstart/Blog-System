@@ -34,6 +34,7 @@
             <if test="email!=null">email=#{email},</if>
             <if test="address!=null">address=#{address},</if>
             <if test="sign!=null">sign=#{sign}</if>
+            <if test="articleCount!=null">article_count=#{articleCount}</if>
         </set>
         WHERE id = #{id}
     </update>

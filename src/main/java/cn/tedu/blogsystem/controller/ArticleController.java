@@ -49,15 +49,16 @@ public class ArticleController {
 
     /**
      * 根据id查询文章详情
-     * @param id 文章id
+     * @param articleId 文章id
      * @return 返回文章详情
      */
     @ApiOperation("根据id查询文章详情")
     @ApiOperationSupport(order = 600)
-    @GetMapping("/selectById")
-    public JsonResult<ArticleStandardlVO> selectById(Long id){
-        log.debug("开始处理[根据id查询文章详情]的请求,参数{}",id);
-        ArticleStandardlVO articleStandardlVO = articleService.articleDetail(id);
+    @ApiImplicitParam(name = "articleId",value = "文章id",required = true,dataType = "long")
+    @GetMapping("/{articleId:[0-9]+}/selectById")
+    public JsonResult<ArticleStandardlVO> selectById(@PathVariable Long articleId){
+        log.debug("开始处理[根据id查询文章详情]的请求,参数{}",articleId);
+        ArticleStandardlVO articleStandardlVO = articleService.articleDetail(articleId);
         return JsonResult.ok(articleStandardlVO);
     }
 

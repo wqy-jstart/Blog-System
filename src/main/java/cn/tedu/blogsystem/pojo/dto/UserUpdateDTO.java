@@ -1,9 +1,11 @@
 package cn.tedu.blogsystem.pojo.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * 用户修改的实体类
@@ -37,7 +39,8 @@ public class UserUpdateDTO implements Serializable {
     /**
      * 生日
      */
-    private String birthday;
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")//指定时间呈现格式和时区GMT+8东八区
+    private Date birthday;
 
     /**
      * 头像

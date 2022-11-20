@@ -26,6 +26,10 @@ import java.time.LocalDateTime;
 @Service
 public class UserServiceImpl implements IUserService {
 
+    public UserServiceImpl(){
+        log.debug("创建业务层实现类对象:UserServiceImpl");
+    }
+
     // 注入用户的DAO接口
     @Autowired
     private UserMapper userMapper;

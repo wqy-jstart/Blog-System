@@ -70,7 +70,7 @@ public class UserController {
     @ApiOperationSupport(order = 200)
     @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "long")
     @PostMapping("/{id:[0-9]+}/update")
-    public JsonResult<Void> update(@PathVariable Long id, UserUpdateDTO userUpdateDTO){
+    public JsonResult<Void> update(@PathVariable Long id, @RequestBody UserUpdateDTO userUpdateDTO){
         log.debug("开始处理[根据id修改用户信息]的请求,id:{},参数:{}",id,userUpdateDTO);
         userService.update(id,userUpdateDTO);
         return JsonResult.ok();
@@ -114,7 +114,7 @@ public class UserController {
     @ApiOperation("根据id查询用户详情")
     @ApiOperationSupport(order = 510)
     @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "long")
-    @GetMapping("/{id:[0-9]+}/delectById")
+    @GetMapping("/{id:[0-9]+}/selectById")
     public JsonResult<UserStandardVO> selectById(@PathVariable Long id){
         log.debug("开始处理[根据id查询用户详情]的请求,参数:{}",id);
         UserStandardVO userStandardVO = userService.userStandard(id);

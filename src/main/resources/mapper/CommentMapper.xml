@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tedu.blogsystem.mapper.CommentMapper">
+
+    <!--int insert(Comment comment);-->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO blog.blog_comment(content, gmt_create, gmt_modified)
+        VALUES (#{content}, #{gmtCreate}, #{gmtModified})
+    </insert>
+
+    <!--List<CommentListVO> listByArticleId(Long articleId);-->
+    <select id="listByArticleId" resultMap="QueryListRM">
+        SELECT blog.blog_article.id, blog.blog_user.nickname, blog.blog_comment.content ,blog.blog_comment.gmt_create
+        FROM blog.blog_article
+                 JOIN blog.blog_user_article_comment
+                      ON blog_user_article_comment.article_id = blog_article.id
+                 JOIN blog.blog_user
+                      ON blog_user.id = blog_user_article_comment.user_id
+                 JOIN blog.blog_comment
+                      ON blog_comment.id = blog_user_article_comment.comment_id
+        WHERE blog_article.id = #{articleId}
+    </select>
+    <resultMap id="QueryListRM" type="cn.tedu.blogsystem.pojo.vo.CommentListVO">
+        <id column="id" property="id"/>
+        <result column="nickname" property="nickname"/>
+        <result column="content" property="content"/>
+        <result column="gmt_create" property="gmtCreate"/>
+    </resultMap>
+
+</mapper>

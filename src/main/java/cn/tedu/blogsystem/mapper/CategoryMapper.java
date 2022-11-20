@@ -16,4 +16,11 @@ public interface CategoryMapper {
      * @return 返回列表
      */
     List<CategoryListItemVO> list();
+
+    /**
+     * 根据文章id查询类别名称
+     * @param articleId 文章id
+     * @return List字符串集合
+     */
+    List<CategoryListItemVO> listByArticleId(Long articleId);
 }

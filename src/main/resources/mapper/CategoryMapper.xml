@@ -4,7 +4,9 @@
 
     <!--List<CategoryListItemVO> list();-->
     <select id="list" resultMap="listRM">
-        SELECT id,name,sort,gmt_create,gmt_modified FROM blog.blog_category ORDER BY sort DESC ;
+        SELECT id, name, sort, gmt_create, gmt_modified
+        FROM blog.blog_category
+        ORDER BY sort DESC;
     </select>
 
     <resultMap id="listRM" type="cn.tedu.blogsystem.pojo.vo.CategoryListItemVO">
@@ -15,4 +17,14 @@
         <result column="gmt_modified" property="gmtModified"/>
     </resultMap>
 
+    <!--List<String> listByArticleId();-->
+    <select id="listByArticleId" resultType="cn.tedu.blogsystem.pojo.vo.CategoryListItemVO">
+        SELECT blog.blog_category.name
+        FROM blog.blog_article
+                 JOIN blog.blog_article_category
+                      ON blog.blog_article.id = blog.blog_article_category.article_id
+                 JOIN blog.blog_category
+                      ON blog.blog_category.id = blog.blog_article_category.category_id
+        WHERE blog_article.id = #{id}
+    </select>
 </mapper>

@@ -6,28 +6,19 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
-public class UserArticle implements Serializable {
-
+public class Comment implements Serializable {
     /**
-     * 文章id
+     * 评论id
      */
     private Long id;
-
     /**
-     * 用户id
+     * 评论内容
      */
-    private Long userId;
-
-    /**
-     * 文章id
-     */
-    private Long articleId;
-
+    private String content;
     /**
      * 创建时间
      */
     private LocalDateTime gmtCreate;
-
     /**
      * 修改时间
      */

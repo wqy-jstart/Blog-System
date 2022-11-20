@@ -1,9 +1,11 @@
 package cn.tedu.blogsystem.pojo.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * 这是用户的实体类,包含用户的所有信息
@@ -40,7 +42,8 @@ public class User implements Serializable {
     /**
      * 生日
      */
-    private String birthday;
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")//指定时间呈现格式和时区GMT+8东八区
+    private Date birthday;
 
     /**
      * 头像

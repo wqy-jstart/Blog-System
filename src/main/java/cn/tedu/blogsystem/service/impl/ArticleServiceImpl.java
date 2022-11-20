@@ -32,6 +32,10 @@ import java.util.List;
 @Service
 public class ArticleServiceImpl implements IArticleService {
 
+    public ArticleServiceImpl(){
+        log.debug("创建业务层实现类对象:ArticleServiceImpl");
+    }
+
     @Autowired
     private ArticleMapper articleMapper;
 
@@ -65,7 +69,7 @@ public class ArticleServiceImpl implements IArticleService {
         for (Long categoryId : categoryIds) {
             ArticleCategory articleCategory = new ArticleCategory();
             articleCategory.setCategoryId(categoryId);
-            articleCategory.setArticleId(id);
+            articleCategory.setArticleId(article.getId());
             log.debug("即将向文章类别关联表中插入数据...");
             rows = articleCategoryMapper.insert(articleCategory);
             if (rows>1){
@@ -76,6 +80,7 @@ public class ArticleServiceImpl implements IArticleService {
         }
         UserArticle userArticle = new UserArticle();
         userArticle.setUserId(id);
+        userArticle.setArticleId(article.getId());
         log.debug("即将向用户文章关联表中插入数据...");
         rows = userArticleMapper.insert(userArticle);
         if (rows>1){
