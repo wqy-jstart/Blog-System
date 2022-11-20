@@ -1,6 +1,7 @@
 package cn.tedu.blogsystem.controller;
 
 import cn.tedu.blogsystem.pojo.dto.ArticleAddNewDTO;
+import cn.tedu.blogsystem.pojo.vo.ArticleListItemVO;
 import cn.tedu.blogsystem.pojo.vo.ArticleStandardlVO;
 import cn.tedu.blogsystem.pojo.vo.UserArticleListItemVO;
 import cn.tedu.blogsystem.service.IArticleService;
@@ -52,11 +53,11 @@ public class ArticleController {
      * @param articleId 文章id
      * @return 返回文章详情
      */
-    @ApiOperation("根据id查询文章详情")
+    @ApiOperation("根据文章id查询文章详情")
     @ApiOperationSupport(order = 600)
     @ApiImplicitParam(name = "articleId",value = "文章id",required = true,dataType = "long")
     @GetMapping("/{articleId:[0-9]+}/selectById")
-    public JsonResult<ArticleStandardlVO> selectById(@PathVariable Long articleId){
+    public JsonResult<ArticleStandardlVO> selectByArticleId(@PathVariable Long articleId){
         log.debug("开始处理[根据id查询文章详情]的请求,参数{}",articleId);
         ArticleStandardlVO articleStandardlVO = articleService.articleDetail(articleId);
         return JsonResult.ok(articleStandardlVO);
@@ -73,5 +74,19 @@ public class ArticleController {
         log.debug("开始处理[查询主页列表]的请求,无参");
         List<UserArticleListItemVO> userArticleListItemVOList = articleService.userAndArticleList();
         return JsonResult.ok(userArticleListItemVOList);
+    }
+
+    /**
+     * 根据id查询文章列表
+     * @param userId 用户id
+     * @return 文章列表
+     */
+    @ApiOperation("根据id查询文章列表")
+    @ApiOperationSupport(order = 620)
+    @GetMapping("/selectById")
+    public JsonResult<List<ArticleListItemVO>> selectByUserId(Long userId){
+        log.debug("开始处理[根据id查询文章列表]的请求,参数:{}", userId);
+        List<ArticleListItemVO> articleListItemVOS = articleService.listById(userId);
+        return JsonResult.ok(articleListItemVOS);
     }
 }

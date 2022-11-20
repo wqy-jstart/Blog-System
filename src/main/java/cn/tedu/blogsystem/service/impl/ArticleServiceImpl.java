@@ -9,6 +9,7 @@ import cn.tedu.blogsystem.pojo.dto.ArticleAddNewDTO;
 import cn.tedu.blogsystem.pojo.entity.Article;
 import cn.tedu.blogsystem.pojo.entity.ArticleCategory;
 import cn.tedu.blogsystem.pojo.entity.UserArticle;
+import cn.tedu.blogsystem.pojo.vo.ArticleListItemVO;
 import cn.tedu.blogsystem.pojo.vo.ArticleStandardlVO;
 import cn.tedu.blogsystem.pojo.vo.UserArticleListItemVO;
 import cn.tedu.blogsystem.service.IArticleService;
@@ -115,5 +116,16 @@ public class ArticleServiceImpl implements IArticleService {
     public List<UserArticleListItemVO> userAndArticleList() {
         log.debug("开始处理[查询主页列表信息]的业务,无参数");
         return userArticleMapper.userAndArticleList();
+    }
+
+    /**
+     * 根据id查询文章列表
+     * @param id 用户id
+     * @return 返回列表
+     */
+    @Override
+    public List<ArticleListItemVO> listById(Long id) {
+        log.debug("开始处理[根据id查询文章列表]的业务,参数:{}",id);
+        return articleMapper.listById(id);
     }
 }

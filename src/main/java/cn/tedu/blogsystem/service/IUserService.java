@@ -6,6 +6,9 @@ import cn.tedu.blogsystem.pojo.dto.UserUpdateDTO;
 import cn.tedu.blogsystem.pojo.vo.UserStandardVO;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 /**
  * 这是用户的业务层接口类
  *
@@ -25,7 +28,20 @@ public interface IUserService {
      * 处理用户登录的功能
      * @param userLoginDTO 用户登录传递的信息
      */
-    void login(UserLoginDTO userLoginDTO);
+    void login(UserLoginDTO userLoginDTO, HttpServletResponse response, HttpSession session);
+
+    /**
+     * 处理退出登录业务
+     * @param session session
+     */
+    void logout(HttpSession session);
+
+    /**
+     * 处理返回当前登录的用户信息
+     * @param session 用其来获取保存的对象
+     * @return 返回查询用户的VO类型
+     */
+    UserStandardVO currentUser(HttpSession session);
 
     /**
      * 根据用户id修改用户信息

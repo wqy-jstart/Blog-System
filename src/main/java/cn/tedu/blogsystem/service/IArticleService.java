@@ -1,6 +1,7 @@
 package cn.tedu.blogsystem.service;
 
 import cn.tedu.blogsystem.pojo.dto.ArticleAddNewDTO;
+import cn.tedu.blogsystem.pojo.vo.ArticleListItemVO;
 import cn.tedu.blogsystem.pojo.vo.ArticleStandardlVO;
 import cn.tedu.blogsystem.pojo.vo.UserArticleListItemVO;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,11 @@ public interface IArticleService {
      */
     void addNew(Long userId,ArticleAddNewDTO articleAddNewDTO);
 
+    /**
+     * 根据id查询文章详情
+     * @param id id
+     * @return 详情信息
+     */
     ArticleStandardlVO articleDetail(Long id);
 
     /**
@@ -29,4 +35,11 @@ public interface IArticleService {
      * @return 返回关联查询的结果
      */
     List<UserArticleListItemVO> userAndArticleList();
+
+    /**
+     * 根据id查询文章列表
+     * @param id 用户id
+     * @return 返回文章列表List集合
+     */
+    List<ArticleListItemVO> listById(Long id);
 }

@@ -14,6 +14,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 
 /**
@@ -80,8 +83,8 @@ public class UserServiceImpl implements IUserService {
      * @param userLoginDTO 用户登录传递的信息
      */
     @Override
-    public void login(UserLoginDTO userLoginDTO) {
-        log.debug("开始处理[用户登录]的业务!");
+    public void login(UserLoginDTO userLoginDTO, HttpServletResponse response, HttpSession session) {
+        log.debug("开始处理[用户登录]的业务!参数:{}",userLoginDTO);
         log.debug("开始检查用户名是否存在...");
         UserStandardVO userStandardVO = userMapper.selectByUsername(userLoginDTO.getUsername());
         if (userStandardVO == null) {
@@ -96,6 +99,46 @@ public class UserServiceImpl implements IUserService {
             log.debug(message);
             throw new ServiceException(ServiceCode.ERR_NOT_PASSWORD,message);
         }
+
+        log.debug("即将将信息保存到cookie中...");
+        if (userLoginDTO.getRem()){//如果勾选了记住用户名密码
+            //创建Cookie,将用户名和密码进行保存,设置保存最大时间
+            log.debug("开始创建cookie...");
+            Cookie c1 = new Cookie("username", userLoginDTO.getUsername());//将用户名保存到username中
+            Cookie c2 = new Cookie("password", userLoginDTO.getPassword());//将密码保存到password中
+            //设置保存最大时间
+            log.debug("开始设置保存时间...");
+            c1.setMaxAge(60*60*24);
+            c2.setMaxAge(60*60*24);
+            //将获取的用户名密码下发给页面
+            response.addCookie(c1);
+            response.addCookie(c2);
+        }
+        //把当前登录的用户对象保存到Session里面
+        session.setAttribute("userLoginDTO",userStandardVO);
+    }
+
+    /**
+     * 处理退出登录的业务
+     * @param session session
+     */
+    @Override
+    public void logout(HttpSession session) {
+        log.debug("开始处理退出登录的业务!");
+        //删除session中保存的用户信息
+        session.removeAttribute("userLoginDTO");
+    }
+
+    /**
+     * 处理返回当前登录的用户信息
+     * @param session 用其来获取保存的对象
+     * @return 返回查询用户的VO类型
+     */
+    @Override
+    public UserStandardVO currentUser(HttpSession session) {
+        log.debug("开始处理返回当前登录信息的业务...");
+        //这边传递的是对象,如果为null,在转换JSON对象过程中JS里拿到的会是空字符串
+        return (UserStandardVO) session.getAttribute("userLoginDTO");
     }
 
     /**

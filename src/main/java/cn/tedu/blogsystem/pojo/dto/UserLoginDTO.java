@@ -19,4 +19,9 @@ public class UserLoginDTO implements Serializable {
      * 密码
      */
     private String password;
+
+    /**
+     * 登录时是否勾选了记住用户名和密码
+     */
+    private Boolean rem;
 }

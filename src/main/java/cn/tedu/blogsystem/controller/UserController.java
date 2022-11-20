@@ -15,6 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 /**
  * 控制器层
  * 接收用户的请求
@@ -54,10 +57,31 @@ public class UserController {
     @ApiOperation("用户登录")
     @ApiOperationSupport(order = 160)
     @PostMapping("/login")
-    public JsonResult<Void> login(UserLoginDTO userLoginDTO){
+    public JsonResult<Void> login(@RequestBody UserLoginDTO userLoginDTO, HttpServletResponse response, HttpSession session){
         log.debug("开始处理用户登录的请求!,参数{}",userLoginDTO);
-        userService.login(userLoginDTO);
+        userService.login(userLoginDTO,response,session);
         return JsonResult.ok();
+    }
+
+    /**
+     * 处理退出登录请求
+     * @param session 利用session对象来删除保存的用户信息
+     */
+    @GetMapping("/logout")
+    public void logout(HttpSession session){
+        log.debug("开始处理用户退出登录的请求...");
+        userService.logout(session);
+    }
+
+    /**
+     * 处理返回当前登录的用户信息
+     * @param session 用其来获取保存的对象
+     * @return 返回查询用户的VO类型
+     */
+    @GetMapping("/currentUser")
+    public UserStandardVO currentUser(HttpSession session){
+        log.debug("开始处理返回当前登录信息的请求...");
+        return userService.currentUser(session);
     }
 
     /**
