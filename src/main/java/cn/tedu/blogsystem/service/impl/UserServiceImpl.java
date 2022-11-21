@@ -102,6 +102,7 @@ public class UserServiceImpl implements IUserService {
 
         log.debug("即将将信息保存到cookie中...");
         if (userLoginDTO.getRem()){//如果勾选了记住用户名密码
+            // TODO 记住用户名和密码
             //创建Cookie,将用户名和密码进行保存,设置保存最大时间
             log.debug("开始创建cookie...");
             Cookie c1 = new Cookie("username", userLoginDTO.getUsername());//将用户名保存到username中

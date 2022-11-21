@@ -1,4 +1,4 @@
-package cn.tedu.blogsystem.config;
+package cn.tedu.blogsystem.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,8 +15,9 @@ import java.util.UUID;
  */
 @Slf4j
 @RestController
-public class UploadConfiguration {
-    private final String dirPath = "D:/files";
+public class UploadController {
+    // 将静态资源文件路径设置到前端项目的assets目录下(以便做保存删除操作!!!)
+    private final String dirPath = "C:\\Users\\admin\\IdeaProjects\\blog-client\\src\\assets\\img";
 
     @RequestMapping("/upload")
     //MultipartFile是Spring框架中的一个文件类型接口
@@ -54,6 +55,7 @@ public class UploadConfiguration {
      */
     @RequestMapping("/remove")
     public void remove(String url) {
+        log.debug("开始处理删除图片的请求...路径:{}",url);
         if (new File(dirPath + url).delete()) {//File对象的delete()方法,返回值boolean
             System.out.println("删除成功!");
         } else {
