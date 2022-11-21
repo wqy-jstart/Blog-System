@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * 评论的控制器类
  */
-@Api
+@Api(tags = "评论模块")
 @Slf4j
 @Validated
 @RestController

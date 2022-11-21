@@ -28,7 +28,7 @@ public interface IUserService {
      * 处理用户登录的功能
      * @param userLoginDTO 用户登录传递的信息
      */
-    void login(UserLoginDTO userLoginDTO, HttpServletResponse response, HttpSession session);
+    String login(UserLoginDTO userLoginDTO);
 
     /**
      * 处理退出登录业务

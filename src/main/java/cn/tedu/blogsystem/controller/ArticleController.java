@@ -23,7 +23,7 @@ import java.util.List;
  * @Author java@Wqy
  * @Version 0.0.1
  */
-@Api
+@Api(tags = "文章模块")
 @Slf4j
 @Validated
 @RestController

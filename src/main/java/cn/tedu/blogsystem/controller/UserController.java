@@ -25,7 +25,7 @@ import javax.servlet.http.HttpSession;
  * @Author java@Wqy
  * @Version 0.0.1
  */
-@Api
+@Api(tags = "用户模块")
 @Slf4j
 @Validated
 @RestController
@@ -57,10 +57,10 @@ public class UserController {
     @ApiOperation("用户登录")
     @ApiOperationSupport(order = 160)
     @PostMapping("/login")
-    public JsonResult<Void> login(@RequestBody UserLoginDTO userLoginDTO, HttpServletResponse response, HttpSession session){
+    public JsonResult<String> login(UserLoginDTO userLoginDTO){
         log.debug("开始处理用户登录的请求!,参数{}",userLoginDTO);
-        userService.login(userLoginDTO,response,session);
-        return JsonResult.ok();
+        String jwt = userService.login(userLoginDTO);
+        return JsonResult.ok(jwt);
     }
 
     /**

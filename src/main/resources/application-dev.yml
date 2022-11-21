@@ -23,6 +23,15 @@ spring:
     multipart:
       max-file-size: 10MB
 
+# 当前项目中的自定义配置
+blogsystem:
+  # JWT相关配置
+  jwt:
+    # 生成和解析JWT时使用的secretKey
+    secret-key: a9F8ujGDhjgFvfEd3SA90ukDS
+    # JWT的有效时长,以分钟为单位
+    duration-in-minute: 3600
+
 # 日志的显示级别默认info(根包尽量这样写,若简写会扩大不必要的范围,多写比较麻烦)
 logging:
   level:

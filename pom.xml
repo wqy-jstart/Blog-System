@@ -47,6 +47,19 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!-- Spring Boot security的依赖项,用于用户认证和用户授权 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <!-- JJWT（Java JWT） -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.9.1</version>
+        </dependency>
+
         <!-- Knife4j Spring Boot：在线API -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
@@ -60,6 +73,13 @@
             <artifactId>lombok</artifactId>
             <version>1.18.20</version>
             <scope>provided</scope>
+        </dependency>
+
+        <!-- fastjson：实现对象与JSON的相互转换 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.75</version>
         </dependency>
 
         <!-- Spring Boot Validation的依赖项,用于检查请求参数的基本格式 -->
