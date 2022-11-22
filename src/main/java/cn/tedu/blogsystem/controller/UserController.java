@@ -117,6 +117,19 @@ public class UserController {
     }
 
     /**
+     * 根据原密码检查密码是否匹配
+     * @param id 用户id
+     * @param userUpdateDTO 用户修改的密码信息
+     * @return 返回结果集
+     */
+    @PostMapping("/{id:[0-9]+}/matches")
+    public JsonResult<Void> matches(@PathVariable Long id,UserUpdateDTO userUpdateDTO){// 前端传递FormData格式的对象参数
+        log.debug("开始检查id[{}]的用户密码是否匹配的请求,参数:{}",id,userUpdateDTO);
+        userService.matchesToBlur(id,userUpdateDTO.getOldPassword());
+        return JsonResult.ok();
+    }
+
+    /**
      * 根据用户名查询用户详情信息
      * @param username 用户名
      * @return 返回结果集

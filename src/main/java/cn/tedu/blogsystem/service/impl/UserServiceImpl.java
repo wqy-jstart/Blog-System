@@ -9,6 +9,7 @@ import cn.tedu.blogsystem.pojo.entity.User;
 import cn.tedu.blogsystem.pojo.vo.UserStandardVO;
 import cn.tedu.blogsystem.security.AdminDetails;
 import cn.tedu.blogsystem.service.IUserService;
+import cn.tedu.blogsystem.util.BCryptEncode;
 import cn.tedu.blogsystem.web.ServiceCode;
 import com.alibaba.fastjson.JSON;
 import io.jsonwebtoken.Jwts;
@@ -21,6 +22,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
@@ -82,9 +85,10 @@ public class UserServiceImpl implements IUserService {
             throw new ServiceException(ServiceCode.ERR_NOT_FOUND, message);
         }
 
-        User user = new User();
+        User user = new User();// 实例化一个User对象
         BeanUtils.copyProperties(userRegisterDTO, user);
         LocalDateTime now = LocalDateTime.now();
+        user.setPassword(BCryptEncode.encryptionPassword(userRegisterDTO.getPassword()));
         user.setGmtCreate(now);
         user.setGmtModified(now);
         user.setArticleCount(0);
@@ -218,13 +222,16 @@ public class UserServiceImpl implements IUserService {
             log.debug(message);
             throw new ServiceException(ServiceCode.ERR_CONFLICT, message);
         }
-        if (userStandardVO.getPassword().equals(userUpdateDTO.getPassword())) {
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if (passwordEncoder.matches(userUpdateDTO.getPassword(),userStandardVO.getPassword())) {
             String message = "修改失败,修改后的密码与原密码相同!";
             log.debug(message);
             throw new ServiceException(ServiceCode.ERR_CONFLICT, message);
         }
+        // 实例化user对象
         User user = new User();
         BeanUtils.copyProperties(userUpdateDTO, user);
+        user.setPassword(BCryptEncode.encryptionPassword(userUpdateDTO.getPassword()));// 调用工具类,传入明文进行BCrypt加密处理
         user.setId(id);
         log.debug("即将进行修改密码...");
         int rows = userMapper.update(user);
@@ -232,6 +239,23 @@ public class UserServiceImpl implements IUserService {
             String message = "修改失败,服务器忙,请稍后再试...";
             log.debug(message);
             throw new ServiceException(ServiceCode.ERR_UPDATE, message);
+        }
+    }
+
+    /**
+     * 处理修改密码验证原码是否匹配的业务
+     * @param id 用户id
+     * @param oldPassword 原密码
+     */
+    @Override
+    public void matchesToBlur(Long id, String oldPassword) {
+        log.debug("开始处理用户id[{}]根据原密码检查是否匹配的业务,参数:{}",id,oldPassword);
+        UserStandardVO userStandardVO = userMapper.selectById(id);
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if (!passwordEncoder.matches(oldPassword,userStandardVO.getPassword())){
+            String message = "原密码不匹配!";
+            log.debug(message);
+            throw new ServiceException(ServiceCode.ERR_NOT_PASSWORD,message);
         }
     }
 

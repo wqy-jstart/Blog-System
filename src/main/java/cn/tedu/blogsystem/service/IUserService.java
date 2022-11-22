@@ -58,6 +58,13 @@ public interface IUserService {
     void updateToPassword(Long id,UserUpdateDTO userUpdateDTO);
 
     /**
+     * 修改密码输入原密码时的失焦事件
+     * @param id 用户id
+     * @param oldPassword 原密码
+     */
+    void matchesToBlur(Long id,String oldPassword);
+
+    /**
      * 根据用户名查询用户详情信息
      * @param username 用户名
      * @return 返回用户详情VO类

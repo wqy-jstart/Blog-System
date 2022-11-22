@@ -16,8 +16,9 @@ import java.util.UUID;
 @Slf4j
 @RestController
 public class UploadController {
-    // 将静态资源文件路径设置到前端项目的assets目录下(以便做保存删除操作!!!)
-    private final String dirPath = "C:\\Users\\admin\\IdeaProjects\\blog-client\\src\\assets\\img";
+
+    // 将图片路径声明成不可变的量
+    private final String dirPath = "C:\\Users\\admin\\IdeaProjects\\blog-client\\public\\";
 
     @RequestMapping("/upload")
     //MultipartFile是Spring框架中的一个文件类型接口

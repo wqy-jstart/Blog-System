@@ -18,6 +18,11 @@ public class UserUpdateDTO implements Serializable {
     private String username;
 
     /**
+     * 原密码
+     */
+    private String oldPassword;
+
+    /**
      * 密码
      */
     private String password;
