@@ -3,7 +3,7 @@ package cn.tedu.blogsystem.service.impl;
 import cn.tedu.blogsystem.ex.ServiceException;
 import cn.tedu.blogsystem.mapper.ArticleMapper;
 import cn.tedu.blogsystem.mapper.CategoryMapper;
-import cn.tedu.blogsystem.pojo.vo.ArticleStandardlVO;
+import cn.tedu.blogsystem.pojo.vo.ArticleStandardVO;
 import cn.tedu.blogsystem.pojo.vo.CategoryListItemVO;
 import cn.tedu.blogsystem.service.ICategoryService;
 import cn.tedu.blogsystem.web.ServiceCode;
@@ -51,8 +51,8 @@ public class CategoryServiceImpl implements ICategoryService {
     @Override
     public List<CategoryListItemVO> listByArticleId(Long articleId) {
         log.debug("开始处理[根据文章id查询类别]的业务!");
-        ArticleStandardlVO articleStandardlVO = articleMapper.selectById(articleId);
-        if (articleStandardlVO==null){
+        ArticleStandardVO articleStandardVO = articleMapper.selectById(articleId);
+        if (articleStandardVO ==null){
             String message = "改文章不存在!";
             log.debug(message);
             throw new ServiceException(ServiceCode.ERR_NOT_FOUND,message);

@@ -9,7 +9,7 @@ import cn.tedu.blogsystem.pojo.dto.CommentAddNewDTO;
 import cn.tedu.blogsystem.pojo.entity.Comment;
 import cn.tedu.blogsystem.pojo.entity.User;
 import cn.tedu.blogsystem.pojo.entity.UserArticleComment;
-import cn.tedu.blogsystem.pojo.vo.ArticleStandardlVO;
+import cn.tedu.blogsystem.pojo.vo.ArticleStandardVO;
 import cn.tedu.blogsystem.pojo.vo.CommentListVO;
 import cn.tedu.blogsystem.pojo.vo.UserStandardVO;
 import cn.tedu.blogsystem.service.ICommentService;
@@ -109,8 +109,8 @@ public class CommentServiceImpl implements ICommentService {
     @Override
     public List<CommentListVO> listByArticleId(Long articleId) {
         log.debug("开始处理[根据文章id加载评论列表]的业务!参数:{}",articleId);
-        ArticleStandardlVO articleStandardlVO = articleMapper.selectById(articleId);
-        if (articleStandardlVO==null){
+        ArticleStandardVO articleStandardVO = articleMapper.selectById(articleId);
+        if (articleStandardVO ==null){
             String message = "加载失败,文章id不存在!";
             log.debug(message);
             throw new ServiceException(ServiceCode.ERR_NOT_FOUND,message);

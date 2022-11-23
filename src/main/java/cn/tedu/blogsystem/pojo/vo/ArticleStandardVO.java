@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
  * 这是文章的详情类
  */
 @Data
-public class ArticleStandardlVO implements Serializable {
+public class ArticleStandardVO implements Serializable {
     /**
      * 文章id
      */

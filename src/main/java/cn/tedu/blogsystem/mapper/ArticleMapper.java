@@ -2,7 +2,7 @@ package cn.tedu.blogsystem.mapper;
 
 import cn.tedu.blogsystem.pojo.dto.ArticleUpdateDTO;
 import cn.tedu.blogsystem.pojo.entity.Article;
-import cn.tedu.blogsystem.pojo.vo.ArticleStandardlVO;
+import cn.tedu.blogsystem.pojo.vo.ArticleStandardVO;
 import cn.tedu.blogsystem.pojo.vo.ArticleListItemVO;
 import cn.tedu.blogsystem.pojo.vo.UserArticleListItemVO;
 import org.springframework.stereotype.Repository;
@@ -54,14 +54,7 @@ public interface ArticleMapper {
      * @param id 文章id
      * @return 返回指定文章的详情信息
      */
-    ArticleStandardlVO selectById(Long id);
-
-    /**
-     * 根据标题查询文章详情
-     * @param title 文章标题
-     * @return 详情
-     */
-    ArticleStandardlVO selectByTitle(String title);
+    ArticleStandardVO selectById(Long id);
 
     /**
      * 查询指定用户的文章列表

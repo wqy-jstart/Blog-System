@@ -2,7 +2,7 @@ package cn.tedu.blogsystem.service;
 
 import cn.tedu.blogsystem.pojo.dto.ArticleAddNewDTO;
 import cn.tedu.blogsystem.pojo.vo.ArticleListItemVO;
-import cn.tedu.blogsystem.pojo.vo.ArticleStandardlVO;
+import cn.tedu.blogsystem.pojo.vo.ArticleStandardVO;
 import cn.tedu.blogsystem.pojo.vo.UserArticleListItemVO;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +28,7 @@ public interface IArticleService {
      * @param id id
      * @return 详情信息
      */
-    ArticleStandardlVO articleDetail(Long id);
+    ArticleStandardVO articleDetail(Long id);
 
     /**
      * 查询主页的文章列表

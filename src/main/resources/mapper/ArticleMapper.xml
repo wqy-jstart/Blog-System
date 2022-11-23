@@ -43,20 +43,12 @@
         WHERE id = #{id}
     </select>
 
-    <!--ArticleStandardlVO selectById(Long id);-->
+    <!--ArticleStandardVO selectById(Long id);-->
     <select id="selectById" resultMap="QueryResultRM">
         SELECT
         <include refid="QueryFields"/>
         FROM blog.blog_article
         WHERE id=#{id}
-    </select>
-
-    <!--ArticleStandardlVO selectByTitle(String title);-->
-    <select id="selectByTitle" resultMap="QueryResultRM">
-        SELECT
-        <include refid="QueryFields"/>
-        FROM blog.blog_article
-        WHERE title=#{title}
     </select>
 
     <sql id="QueryFields">
@@ -65,7 +57,7 @@
         </if>
     </sql>
 
-    <resultMap id="QueryResultRM" type="cn.tedu.blogsystem.pojo.vo.ArticleStandardlVO">
+    <resultMap id="QueryResultRM" type="cn.tedu.blogsystem.pojo.vo.ArticleStandardVO">
         <id column="id" property="id"/>
         <result column="title" property="title"/>
         <result column="description" property="description"/>

@@ -4,16 +4,14 @@ import cn.tedu.blogsystem.ex.ServiceException;
 import cn.tedu.blogsystem.mapper.ArticleCategoryMapper;
 import cn.tedu.blogsystem.mapper.ArticleMapper;
 import cn.tedu.blogsystem.mapper.UserArticleMapper;
-import cn.tedu.blogsystem.mapper.UserMapper;
 import cn.tedu.blogsystem.pojo.dto.ArticleAddNewDTO;
 import cn.tedu.blogsystem.pojo.entity.Article;
 import cn.tedu.blogsystem.pojo.entity.ArticleCategory;
 import cn.tedu.blogsystem.pojo.entity.UserArticle;
 import cn.tedu.blogsystem.pojo.vo.ArticleListItemVO;
-import cn.tedu.blogsystem.pojo.vo.ArticleStandardlVO;
+import cn.tedu.blogsystem.pojo.vo.ArticleStandardVO;
 import cn.tedu.blogsystem.pojo.vo.UserArticleListItemVO;
 import cn.tedu.blogsystem.service.IArticleService;
-import cn.tedu.blogsystem.service.IUserService;
 import cn.tedu.blogsystem.web.ServiceCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -98,15 +96,15 @@ public class ArticleServiceImpl implements IArticleService {
      * @return 文章详情类
      */
     @Override
-    public ArticleStandardlVO articleDetail(Long id) {
+    public ArticleStandardVO articleDetail(Long id) {
         log.debug("开始处理[根据id查询文章详情]的业务,参数{}",id);
-        ArticleStandardlVO articleStandardlVO = articleMapper.selectById(id);
-        if (articleStandardlVO==null){
+        ArticleStandardVO articleStandardVO = articleMapper.selectById(id);
+        if (articleStandardVO ==null){
             String message = "该文章不存在!";
             log.debug(message);
             throw new ServiceException(ServiceCode.ERR_NOT_FOUND,message);
         }
-        return articleStandardlVO;
+        return articleStandardVO;
     }
 
     /**
