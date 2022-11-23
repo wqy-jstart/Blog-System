@@ -78,15 +78,15 @@ public class ArticleController {
 
     /**
      * 根据id查询文章列表
-     * @param id 用户id
+     * @param userId 用户id
      * @return 文章列表
      */
     @ApiOperation("根据id查询文章列表")
     @ApiOperationSupport(order = 620)
     @GetMapping("/selectById")
-    public JsonResult<List<ArticleListItemVO>> selectByUserId(Long id){
-        log.debug("开始处理[根据id查询文章列表]的请求,参数:{}", id);
-        List<ArticleListItemVO> articleListItemVOS = articleService.listById(id);
+    public JsonResult<List<ArticleListItemVO>> selectByUserId(Long userId){
+        log.debug("开始处理[根据id查询文章列表]的请求,参数:{}", userId);
+        List<ArticleListItemVO> articleListItemVOS = articleService.listById(userId);
         return JsonResult.ok(articleListItemVOS);
     }
 }
