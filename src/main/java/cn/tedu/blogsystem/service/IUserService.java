@@ -6,7 +6,6 @@ import cn.tedu.blogsystem.pojo.dto.UserUpdateDTO;
 import cn.tedu.blogsystem.pojo.vo.UserStandardVO;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -15,7 +14,7 @@ import javax.servlet.http.HttpSession;
  * @Author java@Wqy
  * @Version 0.0.1
  */
-@Transactional
+@Transactional // 开启基于Spring JDBC的声明式事务
 public interface IUserService {
 
     /**
@@ -77,4 +76,10 @@ public interface IUserService {
      * @return 返回用户详情
      */
     UserStandardVO userStandard(Long id);
+
+    /**
+     * 处理删除用户的功能
+     * @param id 用户id
+     */
+    void logOff(Long id);
 }

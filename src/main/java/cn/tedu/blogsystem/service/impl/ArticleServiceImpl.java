@@ -69,6 +69,7 @@ public class ArticleServiceImpl implements IArticleService {
         Long[] categoryIds = articleAddNewDTO.getCategoryIds();
         for (Long categoryId : categoryIds) {
             ArticleCategory articleCategory = new ArticleCategory();
+            articleCategory.setUserId(id);
             articleCategory.setCategoryId(categoryId);
             articleCategory.setArticleId(article.getId());
             log.debug("即将向文章类别关联表中插入数据...");

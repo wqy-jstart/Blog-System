@@ -29,6 +29,13 @@ public interface ArticleMapper {
     int deleteById(Long id);
 
     /**
+     * 根据id批量删除文章id
+     * @param ids id的List列表
+     * @return 返回删除文章的条数
+     */
+    int deleteBatch(List<Long> ids);
+
+    /**
      * 修改文章的信息
      * @param articleUpdateDTO 要修改的内容
      * @return 返回受影响的行数
@@ -62,6 +69,13 @@ public interface ArticleMapper {
      * @return 返回文章列表
      */
     List<ArticleListItemVO> listById(Long userId);
+
+    /**
+     * 根据用户id关联查询文章图片路径
+     * @param userId 用户id
+     * @return 返回图片路径集合
+     */
+    List<String> selectBatchToUrl(Long userId);
 
     /**
      * 所有博客列表

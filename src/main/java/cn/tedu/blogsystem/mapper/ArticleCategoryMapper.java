@@ -15,4 +15,11 @@ public interface ArticleCategoryMapper {
      * @return 返回影响的行数
      */
     int insert(ArticleCategory articleCategory);
+
+    /**
+     * 根据用户id删除文章分类信息
+     * @param userId 用户id
+     * @return 受影响的行数
+     */
+    int deleteByUserId(Long userId);
 }

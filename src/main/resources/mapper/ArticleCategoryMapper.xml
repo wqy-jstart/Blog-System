@@ -4,7 +4,12 @@
 
    <!--int insert(ArticleCategory articleCategory);-->
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO blog.blog_article_category(article_id, category_id, gmt_create, gmt_modified)
-        VALUES (#{articleId}, #{categoryId}, #{gmtCreate}, #{gmtModified})
+        INSERT INTO blog.blog_article_category(user_id,article_id, category_id, gmt_create, gmt_modified)
+        VALUES (#{userId},#{articleId}, #{categoryId}, #{gmtCreate}, #{gmtModified})
     </insert>
+
+    <!--int deleteByUserId(Long userId);-->
+    <delete id="deleteByUserId">
+        DELETE FROM blog.blog_article_category WHERE user_id=#{userId}
+    </delete>
 </mapper>

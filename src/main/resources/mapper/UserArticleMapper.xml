@@ -8,6 +8,16 @@
         VALUES (#{userId},#{articleId}, #{gmtCreate}, #{gmtModified})
     </insert>
 
+    <!--int deleteByUserId(Long userId);-->
+    <delete id="deleteByUserId">
+        DELETE FROM blog.blog_user_article WHERE user_id=#{userId}
+    </delete>
+
+    <!--List<Long> selectToArticleId(Long userId);-->
+    <select id="selectToArticleId" resultType="long">
+        SELECT article_id FROM blog.blog_user_article WHERE user_id=#{userId}
+    </select>
+
     <!--List<UserArticleListItemVO> userAndArticleList();-->
     <select id="userAndArticleList" resultMap="QueryListRM">
         SELECT blog.blog_user.id userId,

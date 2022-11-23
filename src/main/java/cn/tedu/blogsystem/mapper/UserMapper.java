@@ -25,7 +25,7 @@ public interface UserMapper {
     int insert(User user);
 
     /**
-     * 删除
+     * 注销操作出发删除用户信息的功能
      * @param id 要删除的用户id
      * @return 返回影响的条数
      */

@@ -15,6 +15,15 @@
         WHERE id = #{id}
     </delete>
 
+    <!--int deleteBatch(List<Long> ids);-->
+    <delete id="deleteBatch">
+        DELETE FROM blog.blog_article WHERE id IN (
+        <foreach collection="list" item="id" separator=",">
+            #{id}
+        </foreach>
+        )
+    </delete>
+
     <!--int update(ArticleUpdateDTO articleUpdateDTO);-->
     <update id="update">
         UPDATE blog.blog_article
@@ -29,7 +38,9 @@
 
     <!--int count(Long id);-->
     <select id="count" resultType="int">
-        SELECT count(*) FROM blog.blog_article WHERE id=#{id}
+        SELECT count(*)
+        FROM blog.blog_article
+        WHERE id = #{id}
     </select>
 
     <!--ArticleStandardlVO selectById(Long id);-->
@@ -64,9 +75,20 @@
         <result column="gmt_modified" property="gmtModified"/>
     </resultMap>
 
+    <!--List<String> selectBatchToUrl(Long userId);-->
+    <select id="selectBatchToUrl" resultType="string">
+        SELECT blog_article.url
+        FROM blog.blog_user
+                 JOIN blog.blog_user_article
+                      ON blog_user.id = blog_user_article.user_id
+                 JOIN blog.blog_article
+                      ON blog_article.id = blog_user_article.article_id
+        WHERE blog_user.id = #{id};
+    </select>
+
     <!--List<ArticleListItemVO> listById(Long userId);-->
     <select id="listById" resultMap="listResultRM">
-        SELECT blog.blog_article.id,title, description, text, url, blog_article.gmt_create, blog_article.gmt_modified
+        SELECT blog.blog_article.id, title, description, text, url, blog_article.gmt_create, blog_article.gmt_modified
         FROM blog.blog_article
                  JOIN blog.blog_user_article
                       ON blog_user_article.article_id = blog_article.id

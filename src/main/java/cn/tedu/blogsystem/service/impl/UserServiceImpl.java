@@ -1,6 +1,9 @@
 package cn.tedu.blogsystem.service.impl;
 
 import cn.tedu.blogsystem.ex.ServiceException;
+import cn.tedu.blogsystem.mapper.ArticleCategoryMapper;
+import cn.tedu.blogsystem.mapper.ArticleMapper;
+import cn.tedu.blogsystem.mapper.UserArticleMapper;
 import cn.tedu.blogsystem.mapper.UserMapper;
 import cn.tedu.blogsystem.pojo.dto.UserLoginDTO;
 import cn.tedu.blogsystem.pojo.dto.UserRegisterDTO;
@@ -27,11 +30,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 这是用户的业务层接口实现类
@@ -42,6 +43,8 @@ import java.util.Map;
 @Slf4j
 @Service
 public class UserServiceImpl implements IUserService {
+    // 将图片路径声明成不可变的量
+    private final String dirPath = "C:\\Users\\admin\\IdeaProjects\\blog-client\\public\\";
 
     // 读取配置文件application-dev.yml中的自定义配置
     @Value("${blogsystem.jwt.secret-key}")
@@ -60,6 +63,18 @@ public class UserServiceImpl implements IUserService {
     // 注入认证信息接口对象
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    // 注入用户文章关联的DAO接口
+    @Autowired
+    private UserArticleMapper userArticleMapper;
+
+    // 注入文章的DAO接口
+    @Autowired
+    private ArticleMapper articleMapper;
+
+    // 注入文章分类DAO接口
+    @Autowired
+    private ArticleCategoryMapper articleCategoryMapper;
 
     /**
      * 处理用户注册的业务
@@ -223,7 +238,7 @@ public class UserServiceImpl implements IUserService {
             throw new ServiceException(ServiceCode.ERR_CONFLICT, message);
         }
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        if (passwordEncoder.matches(userUpdateDTO.getPassword(),userStandardVO.getPassword())) {
+        if (passwordEncoder.matches(userUpdateDTO.getPassword(), userStandardVO.getPassword())) {
             String message = "修改失败,修改后的密码与原密码相同!";
             log.debug(message);
             throw new ServiceException(ServiceCode.ERR_CONFLICT, message);
@@ -244,18 +259,19 @@ public class UserServiceImpl implements IUserService {
 
     /**
      * 处理修改密码验证原码是否匹配的业务
-     * @param id 用户id
+     *
+     * @param id          用户id
      * @param oldPassword 原密码
      */
     @Override
     public void matchesToBlur(Long id, String oldPassword) {
-        log.debug("开始处理用户id[{}]根据原密码检查是否匹配的业务,参数:{}",id,oldPassword);
+        log.debug("开始处理用户id[{}]根据原密码检查是否匹配的业务,参数:{}", id, oldPassword);
         UserStandardVO userStandardVO = userMapper.selectById(id);
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        if (!passwordEncoder.matches(oldPassword,userStandardVO.getPassword())){
+        if (!passwordEncoder.matches(oldPassword, userStandardVO.getPassword())) {
             String message = "原密码不匹配!";
             log.debug(message);
-            throw new ServiceException(ServiceCode.ERR_NOT_PASSWORD,message);
+            throw new ServiceException(ServiceCode.ERR_NOT_PASSWORD, message);
         }
     }
 
@@ -287,5 +303,72 @@ public class UserServiceImpl implements IUserService {
             throw new ServiceException(ServiceCode.ERR_NOT_FOUND, message);
         }
         return userStandardVO;
+    }
+
+    /**
+     * 根据用户id通过检查删除其关系的所有数据
+     *
+     * @param id 用户id
+     */
+    @Override
+    public void logOff(Long id) {
+        log.debug("开始处理[根据id删除用户]的业务,参数:{}", id);
+        UserStandardVO userStandardVO = userMapper.selectById(id);
+        if (userStandardVO == null) {
+            String message = "删除失败,该数据不存在!";
+            log.debug(message);
+            throw new ServiceException(ServiceCode.ERR_NOT_FOUND, message);
+        }
+        // 删除用户的头像图片路径
+        log.debug("即将删除该用户的头像路径...");
+        if (!userStandardVO.getAvatar().startsWith("http")) {// 如果该头像是不以Http开头,说明是本地图片,进入循环进行删除
+            boolean result = new File(dirPath + userStandardVO.getAvatar()).delete();
+            log.debug("结果:{}", result);
+            if (!result) {// 如果结果为false,说明没有删除成功,应当抛出异常
+                String message = "删除图片失败";
+                log.debug(message);
+            }
+        }
+        // 根据用户id关联删除文章对应的图片
+        log.debug("开始删除用户相关的文章图片...");
+        List<String> urls = articleMapper.selectBatchToUrl(id);
+        for (String url : urls) {
+            log.debug("开始删除图片:{}",url);
+            if (!url.startsWith("http")) {// 如果不是以Http开头,说明不是网图,可进入循环执行本地删除操作,如果是网图,此次循环通过
+                if (!new File(dirPath + url).delete()) {// 如果返回false说明删除失败,抛异常
+                    String message = "图片删除失败,图片可能不存在!";
+                    log.debug(message);
+                }
+            }
+        }
+        // 查询该用户对应的文章id
+        log.debug("开始查询该用户对应的文章id...");
+        List<Long> articleIds = userArticleMapper.selectToArticleId(id);
+        // 删除用户关联的所有文章数据
+        log.debug("即将删除用户[{}]与文章关联的数据", id);
+        {
+            int rows = userArticleMapper.deleteByUserId(id);
+            log.debug("删除用户与文章关联表数据成功!删除的数量为:{}条",rows);
+        }
+        // 删除用户关联的所有文章类别数据
+        log.debug("开始根据id删除该用户文章对应的所有分类信息...");
+        {
+            int rows = articleCategoryMapper.deleteByUserId(id);
+            log.debug("删除用户与文章相关的分类信息成功!删除的数量为:{}条",rows);
+        }
+        // 根据文章id批量删除对应的文章
+        log.debug("开始根据id批量删除该用户的文章数据...");
+        if (articleIds.size()!=0){// 如果查询的文章长度不未0,说明存在文章,则进入分支进行删除
+            int rows = articleMapper.deleteBatch(articleIds);
+            log.debug("删除用户对应文章信息成功!删除的数量为:{}条",rows);
+        }
+        // 删除用户id对应user表中的数据
+        log.debug("开始执行用户id:[{}]删除用户表的数据",id);
+        int rows = userMapper.deleteById(id);
+        if (rows>1){
+            String message = "删除失败,服务器忙,请稍后再试...";
+            log.debug(message);
+            throw new ServiceException(ServiceCode.ERR_DELETE,message);
+        }
     }
 }

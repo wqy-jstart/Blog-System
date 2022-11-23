@@ -18,6 +18,11 @@ public class ArticleCategory implements Serializable {
     private Long id;
 
     /**
+     * 用户id
+     */
+    private Long userId;
+
+    /**
      * 文章id
      */
     private Long articleId;

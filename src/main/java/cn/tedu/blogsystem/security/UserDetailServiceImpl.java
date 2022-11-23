@@ -40,7 +40,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
         if (user==null){
             log.debug("没有与用户名[{}]匹配的用户信息,即将抛出BadCredentialsException",s);
             String message = "登录失败,用户名不存在!";
-            throw new BadCredentialsException(message);// Spring Security提供的异常
+            throw new BadCredentialsException(message);// Spring Security提供的异常可抛给全局异常处理器
         }
 
         // 添加权限信息

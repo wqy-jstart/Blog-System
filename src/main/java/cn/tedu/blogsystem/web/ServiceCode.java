@@ -19,9 +19,29 @@ public enum ServiceCode {
     ERR_BAD_REQUEST(40000),
 
     /**
+     * 登录失败,用户名或密码错误
+     */
+    ERR_UNAUTHORIZED(40100),
+
+    /**
+     * 错误：未登录（账号被禁用）
+     */
+    ERR_UNAUTHORIZED_DISABLED(40200),
+
+    /**
+     * 错误: 无此权限
+     */
+    ERR_FORBIDDEN(40300),
+
+    /**
      * 错误: 数据不存在
      */
     ERR_NOT_FOUND(40400),
+
+    /**
+     * 错误: 图片不存在
+     */
+    ERR_NOT_FOUND_AVATAR(40401),
 
     /**
      * 错误: 用户名不存在
@@ -47,6 +67,11 @@ public enum ServiceCode {
      * 错误: 删除数据异常
      */
     ERR_DELETE(50100),
+
+    /**
+     * 错误: 删除图片异常
+     */
+    ERR_DELETE_URL(50101),
 
     /**
      * 错误: 修改数据异常

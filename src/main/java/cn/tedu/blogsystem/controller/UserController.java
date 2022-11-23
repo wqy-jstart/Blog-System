@@ -11,6 +11,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -156,5 +157,17 @@ public class UserController {
         log.debug("开始处理[根据id查询用户详情]的请求,参数:{}",id);
         UserStandardVO userStandardVO = userService.userStandard(id);
         return JsonResult.ok(userStandardVO);
+    }
+
+    /**
+     * 处理用户注销的功能
+     * @param id 用户id
+     * @return 返回JsonResult结果集
+     */
+    @GetMapping("/{id:[0-9]+}/logOff")
+    public JsonResult<Void> logOff(@Range(min = 1,message = "操作失败,该用户id无效") @PathVariable Long id){
+        log.debug("开始处理根据id注销用户的请求,参数:{}",id);
+        userService.logOff(id);
+        return JsonResult.ok();
     }
 }
