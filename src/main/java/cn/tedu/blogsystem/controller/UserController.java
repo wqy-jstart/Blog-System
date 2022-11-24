@@ -1,5 +1,6 @@
 package cn.tedu.blogsystem.controller;
 
+import cn.tedu.blogsystem.mapper.UserMapper;
 import cn.tedu.blogsystem.pojo.dto.UserLoginDTO;
 import cn.tedu.blogsystem.pojo.dto.UserRegisterDTO;
 import cn.tedu.blogsystem.pojo.dto.UserUpdateDTO;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -33,6 +35,7 @@ import javax.servlet.http.HttpSession;
 @RequestMapping("/users")
 public class UserController {
 
+    // 注入用户Service层接口实现类
     @Autowired
     private IUserService userService;
 
@@ -58,7 +61,7 @@ public class UserController {
     @ApiOperation("用户登录")
     @ApiOperationSupport(order = 160)
     @PostMapping("/login")
-    public JsonResult<String> login(UserLoginDTO userLoginDTO){
+    public JsonResult<String> login(UserLoginDTO userLoginDTO,HttpServletResponse response,HttpSession session){
         log.debug("开始处理用户登录的请求!,参数{}",userLoginDTO);
         String jwt = userService.login(userLoginDTO);
         return JsonResult.ok(jwt);
