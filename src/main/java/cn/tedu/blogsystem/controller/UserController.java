@@ -61,7 +61,7 @@ public class UserController {
     @ApiOperation("用户登录")
     @ApiOperationSupport(order = 160)
     @PostMapping("/login")
-    public JsonResult<String> login(UserLoginDTO userLoginDTO,HttpServletResponse response,HttpSession session){
+    public JsonResult<String> login(UserLoginDTO userLoginDTO){
         log.debug("开始处理用户登录的请求!,参数{}",userLoginDTO);
         String jwt = userService.login(userLoginDTO);
         return JsonResult.ok(jwt);
