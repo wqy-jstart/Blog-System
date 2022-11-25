@@ -39,6 +39,10 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
+    public UserController(){
+        log.debug("创建控制器对象:UserController");
+    }
+
     /**
      * 处理用户注册的请求
      * @param userRegisterDTO 用户的注册信息

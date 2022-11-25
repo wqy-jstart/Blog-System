@@ -33,6 +33,10 @@ public class ArticleController {
     @Autowired
     private IArticleService articleService;
 
+    public ArticleController(){
+        log.debug("创建控制器对象:ArticleController");
+    }
+
     /**
      * 发布文章数据
      * @param articleAddNewDTO 文章数据

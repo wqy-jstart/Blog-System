@@ -17,6 +17,10 @@ import java.util.UUID;
 @RestController
 public class UploadController {
 
+    public UploadController(){
+        log.debug("创建控制器对象:UploadController");
+    }
+
     // 将图片路径声明成不可变的量
     private final String dirPath = "C:\\Users\\admin\\IdeaProjects\\blog-client\\public\\";
 

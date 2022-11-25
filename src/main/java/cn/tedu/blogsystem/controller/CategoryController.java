@@ -34,6 +34,10 @@ public class CategoryController {
     @Autowired
     private ICategoryService categoryService;
 
+    public CategoryController(){
+        log.debug("创建控制器对象:CategoryController");
+    }
+
     /**
      * 处理查询类别列表的请求
      * @return 列表
