@@ -22,7 +22,7 @@ public class UploadController {
     }
 
     // 将图片路径声明成不可变的量
-    private final String dirPath = "C:\\Users\\admin\\IdeaProjects\\blog-client\\public\\";
+    private final String dirPath = "C:\\Users\\Administrator\\IdeaProjects\\blog-client\\public\\";
 
     @RequestMapping("/upload")
     //MultipartFile是Spring框架中的一个文件类型接口
