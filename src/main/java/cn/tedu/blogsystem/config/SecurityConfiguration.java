@@ -26,7 +26,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private JwtAuthorizationFilter jwtAuthorizationFilter;
 
     public SecurityConfiguration(){
-        log.debug("创建配置类对象:JwtAuthorizationFilter");
+        log.debug("创建配置类对象:SecurityConfiguration");
     }
 
     @Bean // 添加Bean注解,该对象会被Spring自动调用
