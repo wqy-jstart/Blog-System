@@ -31,7 +31,7 @@ import java.util.List;
 @Service
 public class ArticleServiceImpl implements IArticleService {
 
-    public ArticleServiceImpl(){
+    public ArticleServiceImpl() {
         log.debug("创建业务层实现类对象:ArticleServiceImpl");
     }
 
@@ -47,21 +47,22 @@ public class ArticleServiceImpl implements IArticleService {
 
     /**
      * 向文章,类别关联表中插入数据
+     *
      * @param articleAddNewDTO 需要发布的文章信息
      */
     @Override
-    public void addNew(Long id , ArticleAddNewDTO articleAddNewDTO) {
-        log.debug("开始处理[发布文章]的业务,参数:{}",articleAddNewDTO);
+    public void addNew(Long id, ArticleAddNewDTO articleAddNewDTO) {
+        log.debug("开始处理[发布文章]的业务,参数:{}", articleAddNewDTO);
         Article article = new Article();
-        BeanUtils.copyProperties(articleAddNewDTO,article);
+        BeanUtils.copyProperties(articleAddNewDTO, article);
         LocalDateTime now = LocalDateTime.now();// 获取当前时间
         article.setGmtCreate(now); //设置发布时间
         log.debug("即将向数据库插入文章信息");
         int rows = articleMapper.insert(article);
-        if (rows>1){
+        if (rows > 1) {
             String message = "发布失败,服务器忙,请稍后再试...";
             log.debug(message);
-            throw new ServiceException(ServiceCode.ERR_INSERT,message);
+            throw new ServiceException(ServiceCode.ERR_INSERT, message);
         }
 
         Long[] categoryIds = articleAddNewDTO.getCategoryIds();
@@ -72,10 +73,10 @@ public class ArticleServiceImpl implements IArticleService {
             articleCategory.setArticleId(article.getId());
             log.debug("即将向文章类别关联表中插入数据...");
             rows = articleCategoryMapper.insert(articleCategory);
-            if (rows>1){
+            if (rows < 1) {
                 String message = "发布失败,服务器忙,请稍后再试...";
                 log.debug(message);
-                throw new ServiceException(ServiceCode.ERR_INSERT,message);
+                throw new ServiceException(ServiceCode.ERR_INSERT, message);
             }
         }
         UserArticle userArticle = new UserArticle();
@@ -83,32 +84,34 @@ public class ArticleServiceImpl implements IArticleService {
         userArticle.setArticleId(article.getId());
         log.debug("即将向用户文章关联表中插入数据...");
         rows = userArticleMapper.insert(userArticle);
-        if (rows>1){
+        if (rows > 1) {
             String message = "发布失败,服务器忙,请稍后再试...";
             log.debug(message);
-            throw new ServiceException(ServiceCode.ERR_INSERT,message);
+            throw new ServiceException(ServiceCode.ERR_INSERT, message);
         }
     }
 
     /**
      * 根据id查询文章详情
+     *
      * @param id 文章id
      * @return 文章详情类
      */
     @Override
     public ArticleStandardVO articleDetail(Long id) {
-        log.debug("开始处理[根据id查询文章详情]的业务,参数{}",id);
+        log.debug("开始处理[根据id查询文章详情]的业务,参数{}", id);
         ArticleStandardVO articleStandardVO = articleMapper.selectById(id);
-        if (articleStandardVO ==null){
+        if (articleStandardVO == null) {
             String message = "该文章不存在!";
             log.debug(message);
-            throw new ServiceException(ServiceCode.ERR_NOT_FOUND,message);
+            throw new ServiceException(ServiceCode.ERR_NOT_FOUND, message);
         }
         return articleStandardVO;
     }
 
     /**
      * 处理查询主页数据的业务
+     *
      * @return 返回List集合
      */
     @Override
@@ -119,12 +122,13 @@ public class ArticleServiceImpl implements IArticleService {
 
     /**
      * 根据id查询文章列表
+     *
      * @param id 用户id
      * @return 返回列表
      */
     @Override
     public List<ArticleListItemVO> listById(Long id) {
-        log.debug("开始处理[根据id查询文章列表]的业务,参数:{}",id);
+        log.debug("开始处理[根据id查询文章列表]的业务,参数:{}", id);
         return articleMapper.listById(id);
     }
 }
