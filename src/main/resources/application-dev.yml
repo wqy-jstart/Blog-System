@@ -36,3 +36,7 @@ blogsystem:
 logging:
   level:
     cn.tedu.blogsystem: trace
+
+# 定义图片Path变量
+image:
+  dirPath: C:\Users\Administrator\IdeaProjects\blog-client\public\

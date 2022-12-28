@@ -44,7 +44,8 @@ import java.util.*;
 @Service
 public class UserServiceImpl implements IUserService {
     // 将图片路径声明成不可变的量
-    private final String dirPath = "C:\\Users\\admin\\IdeaProjects\\blog-client\\public\\";
+    @Value("${image.dirPath}")
+    private String dirPath;
 
     // 读取配置文件application-dev.yml中的自定义配置
     @Value("${blogsystem.jwt.secret-key}")
